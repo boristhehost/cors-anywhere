@@ -20,7 +20,7 @@ const postFile = (url, headersToBeSent, method, req, res) => {
         method,
         mode: "cors",
         headers: {
-          "Content-Type": headersToBeSent,
+          // "Content-Type": headersToBeSent,
         },
         body: bodyToBeSent,
       })

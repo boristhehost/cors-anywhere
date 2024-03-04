@@ -11,6 +11,7 @@ const { handleGet } = require("./controllers/get.js");
 const { handlePostOrPut } = require("./controllers/post.js");
 const { handleDelete } = require("./controllers/delete.js");
 const { handleGetFile } = require("./controllers/getFile.js");
+const { postChunksForm } = require("./controllers/postChunksForm.js");
 
 //const { handlePut } = require("./controllers/put.js");
 
@@ -66,8 +67,10 @@ app.get("/cors-submit/getfile", handleGetFile);
 //    }
 
 app.post("/cors-submit", upload.any(), handlePostOrPut("POST"));
+app.post("/cors-submit/chunks", upload.any(), postChunksForm("POST"));
 
 app.put("/cors-submit", upload.any(), handlePostOrPut("PUT"));
+app.put("/cors-submit/chunks", upload.any(), postChunksForm("PUT"));
 
 app.delete("/cors-submit", upload.any(), handleDelete);
 

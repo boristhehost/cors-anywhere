@@ -1,5 +1,6 @@
 const fs = require("fs");
 const FormData = require("form-data");
+const { filePieces } = require("./globals");
 
 const convertToFormData = (obj, file) => {
   const formData = new FormData();
@@ -25,5 +26,31 @@ const convertToFileData = (file) => {
   fs.unlinkSync(filePath);
   return fileData;
 };
+const getLast = (arr) => {
+  if (arr.length > 0) return arr[arr.length - 1];
+  else {
+    return null;
+  }
+};
 
-module.exports = { convertToFormData, convertToFileData };
+const mergeFile = () => {
+  // mergeFile will happen when only last filepiece is recieved so now
+  // it will merge
+
+  const arrBuffer = [];
+  let ogname = "";
+  for (let filePiece of filePieces) {
+    const pieceData = fs.readFileSync(`uploads/${filePiece.name}`);
+    fs.unlinkSync(`uploads/${filePiece.name}`);
+    arrBuffer.push(pieceData);
+    ogname = filePiece.ogName;
+  }
+
+  console.log("arrBuffer: ", arrBuffer);
+
+  const mergedFileBuffer = Buffer.concat(arrBuffer);
+  // fs.writeFileSync(`uploads/${ogname}`, mergedFileBuffer);
+  return { mergedFileBuffer, mergedFileName: ogname };
+};
+
+module.exports = { convertToFormData, convertToFileData, getLast, mergeFile };
